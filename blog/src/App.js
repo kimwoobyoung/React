@@ -78,10 +78,10 @@ function App() {
       
       <input onChange={(e)=> {입력값변경(e.target.value)}} type="text"/>
       <button onClick={(e)=> {
-        if(e.target.value == ''){
-        let copy = [...글제목];
-        copy.unshift(입력값);
-        글제목변경(copy)
+        if(e.target.value == '\s'){
+          let copy = [...글제목];
+          copy.unshift(입력값);
+          글제목변경(copy)
       }
       }}>등록</button>
 
