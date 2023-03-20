@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import styled from 'styled-components'
+import {Nav} from 'react-bootstrap'
 
 // let YellowBtn = styled.button`
 //   background : ${  props => props.bg };
@@ -20,6 +21,7 @@ function Detail(props) {
   // html 먼저 렌더링 후에 useEffect 실행함 즉 시간이 오래 걸리는 작업을 이 함수에 넣음
   let [ alert2, setAlert] = useState(true);
   let [ inputData, setInputData] = useState('');
+  let [ tap, setTap ] = useState(0);
 
   useEffect( ()=> {  
   let timer = setTimeout(()=>{ setAlert(false) }, 2000);
@@ -62,9 +64,35 @@ function Detail(props) {
         <button className="btn btn-danger">주문하기</button> 
       </div>
     </div>
+
+    <Nav variant="tabs" defaultActiveKey="link0">
+      <Nav.Item>
+        <Nav.Link onClick={()=>{setTap(0)}} eventKey="ling0">버튼0</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link onClick={()=>{setTap(1)}} eventKey="ling1">버튼1</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link onClick={()=>{setTap(2)}} eventKey="ling2">버튼2</Nav.Link>
+      </Nav.Item>
+    </Nav>
+    <TabContent tap={tap}/>
+
+
   </div>
   )
   }
+
+  function TabContent({tap}) {
+  // if (tap == 0){
+  //   return <div>내용0</div>
+  // } else if (tap == 1){
+  //   return <div>내용1</div>
+  // } else if (tap == 2){
+  //   return <div>내용2</div>
+  // }
+  return [<div>내용0</div>, <div>내용1</div>, <div>내용3</div>][tap]
+}
 
 
   export default Detail;

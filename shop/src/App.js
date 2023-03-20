@@ -1,17 +1,21 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Navbar, Container, Nav} from 'react-bootstrap'
+import {Navbar, Container, Nav, Button} from 'react-bootstrap'
 import './App.css';
 import { useState } from 'react';
 import data from './data.js';
 import Detail from './pages/Detail.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
+import axios from 'axios'
 
 
 
 function App() {
 
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
+  let [pageIdx, setPageIdx] = useState(2);
+  let [count, setCount] = useState(0);
+  let [loding, setLoding] = useState(true);
 
   return (
     <div className="App">
@@ -39,6 +43,25 @@ function App() {
             }
             </div>
           </div>
+          <Button onClick={()=>{
+            setLoding(alert('로딩중 입니다.'));
+            setCount(count+1);
+            if (count > 1) {
+              alert('마지막 상품 입니다.');
+            }
+            axios.get('https://codingapple1.github.io/shop/data'+ (pageIdx) + '.json').then((result)=>{
+              setShoes([...shoes, ...result.data]);
+              setPageIdx(pageIdx + 1);
+              setLoding(false);
+              }).catch(()=>{
+                console.log('실패')
+              })
+
+              axios.post('/asdas', {name : 'kim'})
+              Promise.all([ axios.get('/url1'), axios.get('/url2') ]).then(()=>{}) //url1, rul2 둘다 성공했을때 then 실행
+              
+
+          }}>더보기</Button>
           </>
         } />
         
@@ -49,7 +72,6 @@ function App() {
         </Route>
         <Route path='*' element={ <div>없는 페이지</div> } />
       </Routes>
-
       
     </div>
   );
