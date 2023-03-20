@@ -34,7 +34,7 @@ function App() {
             <div className="row">
             {
               shoes.map(function(a, i) {
-                return ( <Card shoes={shoes[i]} i={i}/> )
+                return ( <Card shoes={shoes[i]} i={i} />  )
               })
             }
             </div>
