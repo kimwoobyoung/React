@@ -1,17 +1,19 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Navbar, Container, Nav, Button} from 'react-bootstrap'
 import './App.css';
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import data from './data.js';
 import Detail from './pages/Detail.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 import axios from 'axios'
+import Cart from './pages/Cart.js'
 
-
+export let Context1 = createContext()
 
 function App() {
 
   let [shoes, setShoes] = useState(data);
+  let [재고] = useState([10, 11, 12]);
   let navigate = useNavigate();
   let [pageIdx, setPageIdx] = useState(2);
   let [count, setCount] = useState(0);
@@ -65,7 +67,12 @@ function App() {
           </>
         } />
         
-        <Route path='/detail/:id' element={ <Detail shoes={shoes} />} />
+        <Route path='/detail/:id' element={ 
+          <Context1.Provider value={ {재고, shoes} }>
+          <Detail shoes={shoes} />
+          </Context1.Provider>
+        } />
+        <Route path='/Cart' element={ <Cart/> } />
         <Route path='/event' element={ <Event/> } >
          <Route path='one' element={ <p>첫 주문시 양배추즙 서비스</p> } />
          <Route path='two' element={ <p>생일기념 쿠폰받기</p> } />

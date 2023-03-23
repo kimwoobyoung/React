@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import styled from 'styled-components'
 import {Nav} from 'react-bootstrap'
+import {Context1} from './../App.js'
 
 // let YellowBtn = styled.button`
 //   background : ${  props => props.bg };
@@ -22,6 +23,16 @@ function Detail(props) {
   let [ alert2, setAlert] = useState(true);
   let [ inputData, setInputData] = useState('');
   let [ tap, setTap ] = useState(0);
+  let [fade2, setFade2] = useState('')
+
+  let {재고, shoes} = useContext(Context1)
+
+  useEffect(()=> {
+    setFade2('end')
+    return ()=> {
+      setFade2('')
+    }
+  }, [])
 
   useEffect( ()=> {  
   let timer = setTimeout(()=>{ setAlert(false) }, 2000);
@@ -41,7 +52,7 @@ function Detail(props) {
   let 찾은상품 = props.shoes.find((a) => a.id == id)
 
     return (
-    <div className="container">
+    <div className={"container start " + fade2}>
       
       {
         alert2 == true ? (
@@ -76,7 +87,7 @@ function Detail(props) {
         <Nav.Link onClick={()=>{setTap(2)}} eventKey="ling2">버튼2</Nav.Link>
       </Nav.Item>
     </Nav>
-    <TabContent tap={tap}/>
+    <TabContent shoes={shoes} tap={tap}/>
 
 
   </div>
@@ -91,7 +102,22 @@ function Detail(props) {
   // } else if (tap == 2){
   //   return <div>내용2</div>
   // }
-  return [<div>내용0</div>, <div>내용1</div>, <div>내용3</div>][tap]
+  let [fade, setFade] = useState('')
+  let {재고, shoes} = useContext(Context1)
+
+  useEffect (()=> {
+    let a = setTimeout(() => {setFade('end')}, 100);
+
+    return ()=> {
+      clearTimeout(a)
+      setFade('')
+    }
+  }, [tap])
+
+  
+  return (<div className={'start ' + fade}>
+    { [<div>{shoes[0].title}</div>, <div>내용1</div>, <div>내용2</div>][tap] }
+    </div>)
 }
 
 
